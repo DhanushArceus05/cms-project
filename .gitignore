@@ -1,0 +1,25 @@
+# Node
+**/node_modules/
+
+# Next.js
+**/.next/
+
+# Build
+**/dist/
+**/coverage/
+**/out/
+
+# Environment
+**/.env
+**/.env.local
+
+# Logs
+**/*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
