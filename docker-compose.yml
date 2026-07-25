@@ -1,0 +1,105 @@
+name: cms-project
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: cms-mongodb
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      # Exposed to the host only for local inspection (e.g. MongoDB Compass /
+      # mongosh). Not required for container-to-container communication —
+      # the backend always talks to MongoDB via the `mongodb` service name.
+      - '27018:27017'
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - cms-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: cms-backend
+    container_name: cms-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: '5000'
+      # Container-to-container hostname, resolved on the internal Compose
+      # network — never `localhost`.
+      MONGODB_URI: mongodb://mongodb:27017/${MONGO_DB_NAME:-cms-assignment}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1d}
+      ADMIN_SEED_USERNAME: ${ADMIN_SEED_USERNAME:-admin}
+      ADMIN_SEED_EMAIL: ${ADMIN_SEED_EMAIL:-admin@example.com}
+      ADMIN_SEED_PASSWORD: ${ADMIN_SEED_PASSWORD}
+      # Browser-facing origins allowed to call this API (admin + public
+      # frontend, as served on the host).
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000,http://localhost:3001}
+    ports:
+      - '5000:5000'
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://127.0.0.1:5000/health']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - cms-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Runs entirely in the browser, so this must be an address the
+        # user's browser (on the host) can reach — not the internal
+        # `backend` service hostname.
+        NEXT_PUBLIC_API_URL: ${ADMIN_FRONTEND_API_URL:-http://localhost:5000/api/v1}
+    image: cms-admin-frontend
+    container_name: cms-admin-frontend
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - cms-network
+
+  public-frontend:
+    build:
+      context: ./public-frontend
+      dockerfile: Dockerfile
+      args:
+        # Fetched exclusively server-side inside the container, so this
+        # should be the Docker-internal backend address.
+        NEXT_PUBLIC_API_URL: ${PUBLIC_FRONTEND_API_URL:-http://backend:5000/api/v1}
+    image: cms-public-frontend
+    container_name: cms-public-frontend
+    restart: unless-stopped
+    ports:
+      - '3001:3000'
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - cms-network
+
+networks:
+  cms-network:
+    name: cms-network
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    name: cms-mongodb-data
