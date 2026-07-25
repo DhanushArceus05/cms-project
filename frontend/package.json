@@ -2,7 +2,7 @@
   "name": "cms-admin-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "Admin frontend (Phase 3) for the CMS assignment — Next.js App Router + TypeScript + Tailwind CSS",
+  "description": "Admin frontend for the CMS assignment — Next.js App Router + TypeScript + Tailwind CSS",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

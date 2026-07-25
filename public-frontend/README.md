@@ -1,4 +1,4 @@
-# CMS Public Frontend (Phase 4)
+# CMS Public Frontend
 
 Public-facing website built with Next.js (App Router) + TypeScript + Tailwind CSS. Renders published CMS pages by fetching `GET /api/v1/public/pages/:slug` from the backend — no authentication, no admin logic.
 

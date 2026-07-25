@@ -2,10 +2,9 @@ import { z } from 'zod';
 
 /**
  * Nested list items: depth is capped at 3 levels. Rather than open-ended
- * recursion (which would need a runtime depth counter to enforce the
- * "max 3" rule from the Phase 1 plan), the three allowed levels are
- * modeled explicitly — the type system itself makes a 4th level
- * impossible, and Zod rejects it if a client sends it anyway.
+ * recursion (which would need a runtime depth counter to enforce the cap),
+ * the three allowed levels are modeled explicitly — the type system itself
+ * makes a 4th level impossible, and Zod rejects it if a client sends it anyway.
  */
 const listItemLevel3 = z.object({
   text: z.string().trim().min(1, 'List item text cannot be empty'),

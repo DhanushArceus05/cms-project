@@ -1,14 +1,13 @@
-import { Schema, model, type InferSchemaType } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 export const BLOCK_TYPES = ['heading', 'paragraph', 'list', 'table', 'equation'] as const;
 export const PAGE_STATUSES = ['draft', 'published'] as const;
 
 /**
- * Blocks are polymorphic by design (see Phase 1 plan, §5): `data` shape
- * depends entirely on `type`. Zod schemas (src/schemas) enforce the actual
- * per-type shape and constraints before anything reaches this model —
- * Mongoose only needs to know "this is a block with a type, order, and
- * some validated data".
+ * Blocks are polymorphic by design: `data` shape depends entirely on `type`.
+ * Zod schemas (src/schemas) enforce the actual per-type shape and constraints
+ * before anything reaches this model — Mongoose only needs to know "this is
+ * a block with a type, order, and some validated data".
  */
 const blockSchema = new Schema(
   {
@@ -62,7 +61,5 @@ const pageSchema = new Schema(
 );
 
 pageSchema.index({ title: 'text' });
-
-export type PageDocument = InferSchemaType<typeof pageSchema>;
 
 export const Page = model('Page', pageSchema);

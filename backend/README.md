@@ -1,6 +1,6 @@
 # CMS Backend
 
-Express + TypeScript + MongoDB backend for the CMS assignment. Phase 2 of the project — admin and public frontends are not part of this package.
+Express + TypeScript + MongoDB backend for the CMS assignment. This package contains the API only — the admin and public frontends live in their own directories.
 
 ## Installation
 
@@ -114,7 +114,7 @@ A page is a `title`, unique `slug`, `status` (`draft` | `published`), and an ord
 
 ## Docker
 
-Only `backend/Dockerfile` is part of this phase (multi-stage build, runs as non-root `node` user). The root `docker-compose.yml` wiring this up with MongoDB is a later phase.
+`backend/Dockerfile` is a multi-stage build that runs as the non-root `node` user. The root `docker-compose.yml` wires this up together with MongoDB and both frontends.
 
 ```bash
 docker build -t cms-backend .

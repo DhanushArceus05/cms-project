@@ -174,3 +174,23 @@ docker compose logs public-frontend
 docker compose logs mongodb
 docker compose logs -f backend   # follow/tail
 ```
+
+## Default Admin Credentials
+
+After running the seed command:
+
+```bash
+docker compose exec backend npm run seed
+```
+
+Login using:
+
+- Username: `admin`
+- Email: `admin@example.com`
+- Password: `Admin@123`
+
+These values can be changed by editing the following environment variables:
+
+- `ADMIN_SEED_USERNAME`
+- `ADMIN_SEED_EMAIL`
+- `ADMIN_SEED_PASSWORD`

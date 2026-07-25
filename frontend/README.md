@@ -1,6 +1,6 @@
-# CMS Admin Frontend (Phase 3)
+# CMS Admin Frontend
 
-Admin dashboard for the CMS assignment, built with Next.js (App Router) + TypeScript + Tailwind CSS. Consumes the Phase 2 backend's existing REST API with no contract changes.
+Admin dashboard for the CMS assignment, built with Next.js (App Router) + TypeScript + Tailwind CSS. Consumes the backend's REST API with no contract changes.
 
 ## Auth model
 

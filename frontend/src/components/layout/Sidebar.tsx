@@ -55,7 +55,7 @@ export function Sidebar() {
       </nav>
 
       <div className="border-t border-ink-100 px-5 py-4">
-        <p className="text-xs text-ink-400">CMS Admin · Phase 3</p>
+        <p className="text-xs text-ink-400">CMS Admin</p>
       </div>
     </aside>
   );

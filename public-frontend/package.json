@@ -2,7 +2,7 @@
   "name": "cms-public-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "Public-facing website (Phase 4) for the CMS assignment — renders published pages from the CMS backend",
+  "description": "Public-facing website for the CMS assignment — renders published pages from the CMS backend",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,7 +1,7 @@
 {
   "name": "cms-backend",
   "version": "1.0.0",
-  "description": "Production-ready Express + MongoDB backend for the CMS assignment",
+  "description": "Express + MongoDB backend for the CMS assignment",
   "main": "dist/server.js",
   "type": "commonjs",
   "scripts": {
